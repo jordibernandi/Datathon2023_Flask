@@ -32,11 +32,12 @@ for index, row in df.iterrows():
 @app.route("/receiver", methods=["POST"])
 def postME():
     data = request.get_json()
+    query, response = data.split("@@")
     
-    diagnosis = most_similar_diag(data, diagnosis_embeddings_dict)
+    diagnosis = most_similar_diag(query, diagnosis_embeddings_dict)
     prompt = ""
     if diagnosis == "No diagnosis":
-        prompt = "Rephrase this sentence in a formal way: Please describe more about your symptoms if you want any further diagnosis."
+        prompt = "Rephrase this sentence in a formal way: {} Please describe more about your symptoms if you want any further diagnosis.".format(response)
     else:
         prompt = "Provide some information and give some advises about {}.".format(diagnosis)
 
