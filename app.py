@@ -32,7 +32,7 @@ for index, row in df.iterrows():
 @app.route("/receiver", methods=["POST"])
 def postME():
     data = request.get_json()
-    query, response = data.split("@@")
+    response, query = data.split("@@")
     
     diagnosis = most_similar_diag(query, diagnosis_embeddings_dict)
     prompt = ""
@@ -50,7 +50,7 @@ def most_similar_diag(query: str, diagnosis_embeddings_dict: Dict[str, NDArray[N
     :param diagnosis_embeddings_dict: dict that maps each diagnosis to the sentence embeddings of the corresponding symptoms
     :return: most possible (similar symptoms) diagnosis
     """
-    query_sentences = sentences = nltk.tokenize.sent_tokenize(query.replace("\n", " "))
+    query_sentences = nltk.tokenize.sent_tokenize(query.replace("\n", " "))
     # print(query_sentences)
     
     # query sentences embeddings
