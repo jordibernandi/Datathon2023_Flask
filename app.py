@@ -15,8 +15,9 @@ cors = CORS(app)
 def postME():
     data = request.get_json()
     result = re.search('.*(\[.*\]).*', data)
+    symptoms = []
     if result != None:
-        print([x[1:-1] for x in result.group(1)[1:-1].split(', ')])
+        symptoms = [x[1:-1] for x in result.group(1)[1:-1].split(', ')]
     
     nltk.download("punkt")
     nltk.download('wordnet')
@@ -25,7 +26,7 @@ def postME():
 
     word2index, doc2index, index2doc, doc2word_vector = process_df(df)
     td_matrix = term_document_matrix(doc2word_vector, doc2index, word2index)
-    idx = most_similar_docs(, word2index, td_matrix, 3)
+    idx = most_similar_docs(symptoms, word2index, td_matrix, 3)
 
     return jsonify(
         diagnosis=df.loc[df.index[idx]]["diagnosis"].to_list(),
