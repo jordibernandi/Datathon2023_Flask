@@ -69,8 +69,8 @@ def most_similar_diag(query: str, diagnosis_embeddings_dict: Dict[str, NDArray[N
                 sim = np.dot(diagnosis_embedding, query_embedding) / (np.linalg.norm(diagnosis_embedding) * np.linalg.norm(query_embedding))
                 sims.append(sim)
         
-        # average similarity of top 2 sentences
-        top_k = max(2, len(sims))
+        # average similarity of top 5 sentences
+        top_k = max(5, len(sims))
         top_k_sims = np.mean(np.sort(sims)[:top_k])
         # print(top_k_sims)
         if top_k_sims > max_top_k_sims:
