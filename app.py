@@ -28,7 +28,7 @@ def postME():
     td_matrix = term_document_matrix(doc2word_vector, doc2index, word2index)
     idx = most_similar_docs(symptoms, word2index, td_matrix, 1)
 
-    return jsonify("You have {}. Further information are {}".format(df.loc[df.index[idx]]["diagnosis"].to_list()[0], df.loc[df.index[idx]]["information"].to_list()[0]))
+    return jsonify("You might have {}. The relevent information is {}".format(df.loc[df.index[idx]]["diagnosis"].to_list()[0], df.loc[df.index[idx]]["information"].to_list()[0].strip()))
 
 
 def process_df(df: pd.DataFrame) -> (Dict[str, int], Dict[str, int], Dict[int, str], Dict[str, List[int]]):
